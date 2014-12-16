@@ -2,11 +2,12 @@ FROM buildpack-deps:wheezy
 
 ENV GCC_VERSION 4.9.0
 ENV GDC_VERSION 4.9
+ENV MIRROR_SITE ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc
 
 RUN apt-get update \
 	&& apt-get install -y flex \
 	&& rm -r /var/lib/apt/lists/* \
-	&& curl -SL "http://ftpmirror.gnu.org/gcc/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.bz2" -o gcc.tar.bz2 \
+	&& curl -SL "$MIRROR_SITE/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.bz2" -o gcc.tar.bz2 \
 	&& mkdir -p /usr/src/gcc \
 	&& git clone --branch gdc-$GDC_VERSION --single-branch --depth=1 https://github.com/D-Programming-GDC/GDC.git /usr/src/gcc \
 	&& tar -xvf gcc.tar.bz2 -C /usr/src/gcc --strip-components=1 \
